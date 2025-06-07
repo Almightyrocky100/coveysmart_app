@@ -5,9 +5,21 @@ import os
 # Load goals from JSON file
 def load_goals():
     if os.path.exists("goals.json"):
-        with open("goals.json", "r") as f:
-            return json.load(f)
+        try:
+            with open("goals.json", "r", encoding="utf-8") as f:
+                content = f.read().strip()
+                if not content:
+                    st.warning("The goals.json file is empty. Starting with an empty goal list.")
+                    return []
+                return json.loads(content)
+        except json.JSONDecodeError as e:
+            st.error(f"Error decoding JSON: {e}")
+            return []
+        except Exception as e:
+            st.error(f"An unexpected error occurred: {e}")
+            return []
     else:
+        st.info("goals.json file not found. Starting with an empty goal list.")
         return []
 
 # Save goals to JSON file

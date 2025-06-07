@@ -12,11 +12,11 @@
       },
       {
         "year": 2,
-        "objective": "Pandas",
+        "objective": "Learn Pandas",
         "target": 4,
         "achieved": 1
       }
-      // add more phases, each separated by commas—none trailing last
+      // Continue similarly up to phase 12
     ]
   }
 ]

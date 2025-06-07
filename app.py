@@ -37,28 +37,34 @@ def main():
     goals = load_goals()
 
     for idx, goal in enumerate(goals):
-        st.header(f"{goal.get('title', 'Untitled Goal')} ({goal.get('duration_years', 'N/A')} Years)")
-        phases = goal.get("phases", [])
-        for phase in phases:
-            year = phase.get("year", "N/A")
-            objective = phase.get("objective", "No Objective")
-            target = phase.get("target", 0)
-            achieved = phase.get("achieved", 0)
+        if isinstance(goal, dict):
+            title = goal.get('title', 'Untitled Goal')
+            duration = goal.get('duration_years', 'N/A')
+            st.header(f"{title} ({duration} Years)")
 
-            st.subheader(f"Year {year}: {objective}")
-            progress = achieved / target if target else 0
-            st.progress(progress)
-            st.write(f"Achieved: {achieved} / {target} {goal.get('unit', '')}")
+            phases = goal.get("phases", [])
+            for phase in phases:
+                year = phase.get("year", "N/A")
+                objective = phase.get("objective", "No Objective")
+                target = phase.get("target", 0)
+                achieved = phase.get("achieved", 0)
 
-            # Update achieved value
-            new_achieved = st.number_input(
-                f"Update Achieved for Year {year}",
-                min_value=0,
-                max_value=target,
-                value=achieved,
-                key=f"{idx}_{year}"
-            )
-            phase["achieved"] = new_achieved
+                st.subheader(f"Year {year}: {objective}")
+                progress = achieved / target if target else 0
+                st.progress(progress)
+                st.write(f"Achieved: {achieved} / {target} {goal.get('unit', '')}")
+
+                # Update achieved value
+                new_achieved = st.number_input(
+                    f"Update Achieved for Year {year}",
+                    min_value=0,
+                    max_value=target,
+                    value=achieved,
+                    key=f"{idx}_{year}"
+                )
+                phase["achieved"] = new_achieved
+        else:
+            st.warning(f"Invalid goal format at index {idx}. Skipping.")
 
     # Save updates
     if st.button("Save Progress"):

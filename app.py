@@ -2,7 +2,7 @@ import streamlit as st
 import json
 import os
 
-# Load goals from JSON file
+# Load goals from JSON file with error handling
 def load_goals():
     if os.path.exists("goals.json"):
         try:
@@ -25,32 +25,38 @@ def load_goals():
 # Save goals to JSON file
 def save_goals(goals):
     try:
-        with open("goals.json", "w") as f:
+        with open("goals.json", "w", encoding="utf-8") as f:
             json.dump(goals, f, indent=4)
     except Exception as e:
         st.error(f"An error occurred while saving the goals: {e}")
 
 # Main application
 def main():
-    st.title("🎯 CoveySMART Goal Tracker")
+    st.title("🌟 CoveySMART Goal Tracker")
 
     goals = load_goals()
 
     for idx, goal in enumerate(goals):
-        st.header(f"{goal['title']} ({goal['duration_years']} Years)")
-        for phase in goal["phases"]:
-            st.subheader(f"Year {phase['year']}: {phase['objective']}")
-            progress = phase["achieved"] / phase["target"] if phase["target"] else 0
+        st.header(f"{goal.get('title', 'Untitled Goal')} ({goal.get('duration_years', 'N/A')} Years)")
+        phases = goal.get("phases", [])
+        for phase in phases:
+            year = phase.get("year", "N/A")
+            objective = phase.get("objective", "No Objective")
+            target = phase.get("target", 0)
+            achieved = phase.get("achieved", 0)
+
+            st.subheader(f"Year {year}: {objective}")
+            progress = achieved / target if target else 0
             st.progress(progress)
-            st.write(f"Achieved: {phase['achieved']} / {phase['target']} {goal['unit']}")
+            st.write(f"Achieved: {achieved} / {target} {goal.get('unit', '')}")
 
             # Update achieved value
             new_achieved = st.number_input(
-                f"Update Achieved for Year {phase['year']}",
+                f"Update Achieved for Year {year}",
                 min_value=0,
-                max_value=phase["target"],
-                value=phase["achieved"],
-                key=f"{idx}_{phase['year']}"
+                max_value=target,
+                value=achieved,
+                key=f"{idx}_{year}"
             )
             phase["achieved"] = new_achieved
 

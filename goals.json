@@ -1,16 +1,22 @@
-{
-  "phases": [
-    {
-      "year": 1,
-      "objective": "Complete Introduction to Python",
-      "target": 5,
-      "achieved": 2
-    },
-    {
-      "year": 2,
-      "objective": "Learn Data Analysis with Pandas",
-      "target": 4,
-      "achieved": 1
-    }
-  ]
-}
+[
+  {
+    "title": "Master Data Science",
+    "duration_years": 12,
+    "unit": "modules",
+    "phases": [
+      {
+        "year": 1,
+        "objective": "Intro to Python",
+        "target": 5,
+        "achieved": 2
+      },
+      {
+        "year": 2,
+        "objective": "Pandas & Data Analysis",
+        "target": 4,
+        "achieved": 1
+      }
+      // … continue up to 12 phases, each separated by commas
+    ]
+  }
+]

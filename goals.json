@@ -12,11 +12,11 @@
       },
       {
         "year": 2,
-        "objective": "Pandas & Data Analysis",
+        "objective": "Pandas",
         "target": 4,
         "achieved": 1
       }
-      // … continue up to 12 phases, each separated by commas
+      // add more phases, each separated by commas—none trailing last
     ]
   }
 ]

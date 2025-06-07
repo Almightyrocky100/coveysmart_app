@@ -12,8 +12,11 @@ def load_goals():
 
 # Save goals to JSON file
 def save_goals(goals):
-    with open("goals.json", "w") as f:
-        json.dump(goals, f, indent=4)
+    try:
+        with open("goals.json", "w") as f:
+            json.dump(goals, f, indent=4)
+    except Exception as e:
+        st.error(f"An error occurred while saving the goals: {e}")
 
 # Main application
 def main():
